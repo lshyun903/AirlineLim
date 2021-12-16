@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airline.dao.AdminMapper">
+
+	<!-- 모든 비행일정 검색 -->
+	<select id="getFlightList" resultType="flight">
+  		select * from flight
+  	</select>
+  	
+	<!-- 비행일정 삽입 -->
+	<insert id="insertFlight" parameterType="flight">
+		insert into flight values (#{flight_no}, #{departure}, #{arrival}, #{price}, TO_DATE(#{departure_date},'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{arrival_date},'YYYY-MM-DD HH24:MI:SS'), #{flight_time})
+	</insert>
+	
+</mapper>
