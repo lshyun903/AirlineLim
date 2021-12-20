@@ -12,8 +12,6 @@ public class ReservationDAO {
 	
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
 	
-
-
 	public boolean insertReservation(Reservation reser) {
 		try(SqlSession session = factory.openSession()){
 			ReservationMapper mapper = session.getMapper(ReservationMapper.class);

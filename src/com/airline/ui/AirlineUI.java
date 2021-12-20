@@ -18,6 +18,7 @@ public class AirlineUI {
 	private AdminManager adminManager = new AdminManager();
 	private ReservationManager reservationManager = new ReservationManager();
 	
+	
 	public AirlineUI() {
 		while(true) {
 			mainUI();
@@ -26,7 +27,7 @@ public class AirlineUI {
 			switch(input) {
 				case 1:userUI(); break;
 				case 2:reservationUI(); break;
-				case 3:getReserListById(); break;
+				case 3:MyReserList(); break;
 				case 4:adminUI();break;
 				default:System.out.println("번호를 잘못 입력했습니다.");
 			}
@@ -128,6 +129,7 @@ public class AirlineUI {
 			}
 		} else {
 			System.out.println("현재 예정인 비행이 없습니다.");
+			return;
 		}
 		System.out.println("-------------------------");
 		reserFlightUI();
@@ -141,20 +143,28 @@ public class AirlineUI {
 			System.out.println("주문을 취소합니다");
 			return;
 		}
+		
+		Flight flight = reservationManager.selectFlightByFlightNo(flight_no);
+		
+		if(flight == null) {
+			System.out.println("존재하지 않는 비행번호입니다.");
+			return;
+		}
 		System.out.print("인원 : ");
 		int reser_people = scan.nextInt();
 		
 		System.out.println("예약내역");
 		System.out.println("NO : " + flight_no + " 인원 : " + reser_people );
-		if (reservationManager.reserFlight(flight_no, reser_people, userManager.getLogin_id())) {
+		
+		if (reservationManager.reserFlight(flight, reser_people, userManager.getLogin_id())) {
 			System.out.println("예약에 성공했습니다.");
 		} else {
-			System.out.println("예약에 실패했습니다.");
+			System.out.println("잘못 입력하셨습니다.");
 		}
 	}
 
 
-	private void getReserListById() {
+	private void MyReserList() {
 		if (!userManager.isLogin()) {
 			System.out.println("로그인이 필요합니다.");
 			return;
@@ -163,61 +173,65 @@ public class AirlineUI {
 		System.out.println("전체 주문내역");
 		ArrayList<Reservation> reserList = reservationManager.selectReserListById(userManager.getLogin_id());
 		
-		if(reserList != null & reserList.size() > 0) {			
-			System.out.print("예약번호\t비행번호\t예약자\t예약인원\t결제가격\t");
-			System.out.println("출발지\t도착지\t출발날짜\t\t\t도착날짜");
-			
-			for (Reservation reser : reserList) {
-				System.out.print(reser);
-				Flight flight = reservationManager.selectFlightByFlightNo(reser.getFlight_no());
-				System.out.println(flight.getDeparture() + "\t" + flight.getArrival() + "\t" + flight.getDeparture_date() + "\t" + flight.getDeparture_date());
-			}	
-			
-			System.out.print("취소할 예약 번호 (0 입력시 메인화면 이동): ");
-			int reser_no = scan.nextInt();
-			if(reser_no == 0) return;
-			if (reservationManager.deleteReservation(reser_no)) {
-				System.out.println("취소에 성공했습니다.");
-			} else {
-				System.out.println("예약정보가 없거나 삭제에 실패 했습니다.");
-			}
-		}else {
+		if(reserList == null || reserList.size() < 1) {
 			System.out.println("예약 내역이 없습니다.");
+			return;
 		}
+				
+		System.out.print("예약번호\t비행번호\t예약자\t예약인원\t결제가격\t");
+		System.out.println("출발지\t도착지\t출발날짜\t\t\t도착날짜");
 		
+		for (Reservation reser : reserList) {
+			System.out.print(reser);
+			Flight flight = reservationManager.selectFlightByFlightNo(reser.getFlight_no());
+			System.out.println(flight.getDeparture() + "\t" + flight.getArrival() + "\t" + flight.getDeparture_date() + "\t" + flight.getDeparture_date());
+		}	
+		
+		System.out.print("취소할 예약 번호 (0 입력시 메인화면 이동): ");
+		int reserNum = scan.nextInt();
+		
+		if(reserNum == 0) return;
+		deleteReservation(reserNum); 	
+	}
+	
+	public void deleteReservation(int reserNum) {
+		if (reservationManager.deleteReservation(reserNum)) {
+			System.out.println("취소에 성공했습니다.");
+		} else {
+			System.out.println("삭제에 실패 했습니다.");
+		}
 	}
 	
 	public void adminUI() {
 		System.out.print("관리자 패스워드 : ");
 		String passwd = scan.next();
 		
-		if (adminManager.admin_login(passwd)) {
-			System.out.println("전체 주문내역");
-			System.out.println("-------------------------");
-			ArrayList<Flight> flightList = adminManager.getFlightList();
-			System.out.println("비행번호\t출발지\t도착지\t가격\t출발날짜\t\t\t도착날짜\t\t\t소요시간");
-			if (flightList != null && flightList.size() > 0) {
-				for (Flight flight: flightList) {
-					System.out.println(flight);
-				}
-				System.out.print("일정추가(1) 메인화면(2) : ");
-				int input = scan.nextInt();
-				switch(input) {
-				case 1:insertFlight(); break;
-				case 2:return;
-				default:System.out.println("번호를 잘못 입력했습니다.");
-			}
-			} else {
-				System.out.println("현재 예정인 비행이 없습니다.");
-			}
-		} else {
+		if (!adminManager.admin_login(passwd)) {
 			System.out.println("패스워드가 다릅니다.");
+			return;
 		}
 		
+		System.out.println("전체 비행일정");
+		System.out.println("-------------------------");
+		
+		ArrayList<Flight> flightList = adminManager.getFlightList();
+		System.out.println("비행번호\t출발지\t도착지\t가격\t출발날짜\t\t\t도착날짜\t\t\t소요시간");
+		
+		if (flightList == null || flightList.size() < 1) {
+			System.out.println("현재 예정인 비행이 없습니다.");			
+		} else {
+			for (Flight flight: flightList) System.out.println(flight);		
+		}
+		
+		System.out.print("일정추가(1) 메인화면(2) : ");
+		int input = scan.nextInt();
+		switch(input) {
+			case 1:insertFlight(); break;
+			case 2:return;
+			default:System.out.println("번호를 잘못 입력했습니다.");
+		}
 	}
 
-
-	
 	private void insertFlight() {
 		scan.nextLine();
 		System.out.println("비행일정추가");
@@ -230,6 +244,7 @@ public class AirlineUI {
 		String arrival = scan.nextLine();
 		System.out.print("가격 : ");
 		int price = scan.nextInt();
+		scan.nextLine();
 		System.out.print("출발날짜 : ");
 		String departure_date = scan.nextLine();
 		System.out.print("도착날짜 : ");
