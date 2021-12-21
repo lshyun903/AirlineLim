@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.airline.vo.Airplane;
 import com.airline.vo.Flight;
 import com.airline.vo.Reservation;
 
@@ -12,21 +13,7 @@ public class ReservationDAO {
 	
 	private SqlSessionFactory factory = MybatisConfig.getSqlSessionFactory();
 	
-
-
-	public boolean insertReservation(Reservation reser) {
-		try(SqlSession session = factory.openSession()){
-			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
-			mapper.insertReservation(reser);		
-			session.commit();
-			return true;	
-			
-		}catch(Exception e) {
-		e.printStackTrace();
-		}
-		return false;
-	}
-
+	// 해당ID 예약리스트 검색
 	public ArrayList<Reservation> selectReserListById(String user_id) {
 		ArrayList<Reservation> reserList = null;
 		try(SqlSession session = factory.openSession()){
@@ -39,8 +26,9 @@ public class ReservationDAO {
 		}
 		return reserList;
 	}
-
-	public Flight selectFlightByFlightNo(String flight_no) {
+	
+	// 비행번호로 비행일정 검색
+	public Flight selectFlightByFlightNo(int flight_no) {
 		Flight flight = null;
 		try(SqlSession session = factory.openSession()){
 			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
@@ -52,21 +40,8 @@ public class ReservationDAO {
 		}
 		return flight;
 	}
-
-	public boolean deleteReservation(int reser_no) {
-		try(SqlSession session = factory.openSession()){
-			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
-			
-			mapper.deleteReservation(reser_no);		
-			session.commit();
-			return true;	
-			
-		}catch(Exception e) {
-		e.printStackTrace();
-		}
-		return false;
-	}
-
+	
+	// 해당 출발지 도착지에 해당하는 비행일정 리스트 검색
 	public ArrayList<Flight> getFlightListByPlace(Flight flight) {
 		ArrayList<Flight> reserList = new ArrayList<>();
 		try(SqlSession session = factory.openSession()){
@@ -79,5 +54,39 @@ public class ReservationDAO {
 		}
 		return reserList;
 	}
+
+		
+	// 비행예약
+	public boolean insertReservation(Reservation reser) {
+		try(SqlSession session = factory.openSession()){
+			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
+			mapper.updateMinusSeat(reser);
+			mapper.insertReservation(reser);		
+			session.commit();
+			return true;	
+			
+		}catch(Exception e) {
+		e.printStackTrace();
+		}
+		return false;
+	}
+	
+	// 비행예약삭제
+	public boolean deleteReservation(int reser_no) {
+		try(SqlSession session = factory.openSession()){
+			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
+			Reservation reser = mapper.selectReserByReserNo(reser_no);
+			mapper.updatePlusSeat(reser);
+			mapper.deleteReservation(reser_no);		
+			session.commit();
+			return true;	
+			
+		}catch(Exception e) {
+		e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 
 }

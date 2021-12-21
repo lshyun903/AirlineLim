@@ -2,7 +2,7 @@ package com.airline.vo;
 
 public class Reservation {
 	private int reser_no;
-	private String flight_no;
+	private int flight_no;
 	private String user_id;
 	private String reser_date;
 	private int reser_people;
@@ -14,7 +14,7 @@ public class Reservation {
 		this.user_id = user_id;
 	}
 	
-	public Reservation(String flight_no, int reser_people, String user_id, int price) {
+	public Reservation(int flight_no, int reser_people, String user_id, int price) {
 		this.flight_no = flight_no;
 		this.reser_people = reser_people;
 		this.user_id = user_id;
@@ -22,7 +22,7 @@ public class Reservation {
 		
 	}
 
-	public Reservation(int reser_no, String flight_no, String user_id, String reser_date, int reser_people, int price) {
+	public Reservation(int reser_no, int flight_no, String user_id, String reser_date, int reser_people, int price) {
 		super();
 		this.reser_no = reser_no;
 		this.flight_no = flight_no;
@@ -40,11 +40,11 @@ public class Reservation {
 		this.reser_no = reser_no;
 	}
 
-	public String getFlight_no() {
+	public int getFlight_no() {
 		return flight_no;
 	}
 
-	public void setFlight_no(String flight_no) {
+	public void setFlight_no(int flight_no) {
 		this.flight_no = flight_no;
 	}
 
@@ -83,6 +83,6 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return reser_no + "\t" + flight_no + "\t" + user_id + "\t" + reser_people + "\t" + price + "\t";
+		return reser_no + "\t" + user_id + "\t" + reser_people + "\t" + price + "\t";
 	}
 }

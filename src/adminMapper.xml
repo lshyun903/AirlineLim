@@ -9,9 +9,14 @@
   		select * from flight
   	</select>
   	
-	<!-- 비행일정 삽입 -->
+  	<!-- 비행기번호로 비행기 검색 -->
+	<select id="getAirPlane" parameterType="String" resultType="airplane">
+  		select * from airplane where airplane_id = #{airplane_id}
+  	</select>
+  	
+	<!-- 비행일정 추가 -->
 	<insert id="insertFlight" parameterType="flight">
-		insert into flight values (#{flight_no}, #{departure}, #{arrival}, #{price}, TO_DATE(#{departure_date},'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{arrival_date},'YYYY-MM-DD HH24:MI:SS'), #{flight_time})
+		insert into flight values (seq_flight.nextval, #{airplane_id}, #{departure}, #{arrival}, #{price}, TO_DATE(#{departure_date},'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{arrival_date},'YYYY-MM-DD HH24:MI:SS'), #{flight_time}, #{seat})
 	</insert>
 	
 </mapper>

@@ -10,6 +10,7 @@
 		<typeAlias type="com.airline.vo.Flight" alias="flight"/>
 		<typeAlias type="com.airline.vo.Reservation" alias="reser"/>
 		<typeAlias type="com.airline.vo.User" alias="user"/>
+		<typeAlias type="com.airline.vo.Airplane" alias="airplane"/>
 	</typeAliases> 
 	
 	<environments default="development">

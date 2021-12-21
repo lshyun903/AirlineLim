@@ -28,6 +28,7 @@ public class UserDAO {
 		return false;
 	}
 
+	// 아이디 중복체크
 	public boolean check_duplicate_id(String user_id) {
 		try(SqlSession session = factory.openSession()){
 			UserMapper mapper = session.getMapper(UserMapper.class);
@@ -39,7 +40,8 @@ public class UserDAO {
 		}
 		return false;
 	}
-
+	
+	// 회원가입
 	public boolean joinUser(User user) {
 		try(SqlSession session = factory.openSession()){
 			UserMapper mapper = session.getMapper(UserMapper.class);

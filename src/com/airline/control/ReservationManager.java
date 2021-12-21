@@ -1,7 +1,6 @@
 package com.airline.control;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.airline.dao.ReservationDAO;
 import com.airline.vo.Flight;
@@ -10,32 +9,41 @@ import com.airline.vo.Reservation;
 public class ReservationManager {
 	ReservationDAO dao = new ReservationDAO();
 	
-
-	public boolean reserFlight(String flight_no, int reser_people, String login_id) {
-		Flight flight = dao.selectFlightByFlightNo(flight_no);
-		Reservation reser = new Reservation(flight_no, reser_people, login_id, flight.getPrice() * reser_people);
-		if(dao.insertReservation(reser)) return true;
-		return false;
-	}
-
+	// 해당ID 예약리스트 검색
 	public ArrayList<Reservation> selectReserListById(String user_id) {
 		ArrayList<Reservation> reserList = dao.selectReserListById(user_id);
 		return reserList;
 	}
 
-	public Flight selectFlightByFlightNo(String flight_no) {
+	// 비행번호로 비행일정 검색
+	public Flight selectFlightByFlightNo(int flight_no) {
 		Flight flight = dao.selectFlightByFlightNo(flight_no);
 		return flight;
 	}
 	
-
-	public boolean deleteReservation(int reser_no) {
-		return dao.deleteReservation(reser_no);
-	}
-
+	// 해당 출발지 도착지에 해당하는 비행일정 리스트 검색
 	public ArrayList<Flight> getFlightListByPlace(String departure, String arrival) {
 		Flight flight = new Flight(departure, arrival);
 		ArrayList<Flight> flightList = dao.getFlightListByPlace(flight);
 		return flightList;
 	}
+	
+	// 비행예약
+	public boolean reserFlight(int flight_no, int reser_people, String login_id) {
+		Flight flight = dao.selectFlightByFlightNo(flight_no);
+		Reservation reser = new Reservation(flight_no, reser_people, login_id, flight.getPrice() * reser_people);
+		
+		if(flight.getSeat() < reser_people || reser_people < 1) return false;
+		if(dao.insertReservation(reser)) return true;
+		return false;
+	}
+	
+	// 비행예약삭제
+	public boolean deleteReservation(int reser_no) {
+		return dao.deleteReservation(reser_no);
+	}
+	
+
+
+	
 }

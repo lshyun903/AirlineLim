@@ -4,7 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airline.dao.UserMapper">
 
-
 	<!-- 아이디 비밀번호 확인 -->
 	<select id="login" parameterType="HashMap" resultType="int">
   		select count(*) from userinfo where user_id = #{user_id} and passwd = #{passwd}
@@ -14,9 +13,8 @@
 	<select id="check_duplicate_id" parameterType="String" resultType="int">
   		select count(*) from userinfo where user_id = #{id}
   	</select>
-  	
 
-  	<!-- 회원입력 -->
+  	<!-- 회원가입 -->
   	<insert id="joinUser" parameterType="user">
   		insert into userinfo values(#{user_id}, #{passwd}, #{name}, #{email}, #{phone}, #{address})
   	</insert>
