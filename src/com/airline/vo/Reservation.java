@@ -14,6 +14,13 @@ public class Reservation {
 		this.user_id = user_id;
 	}
 	
+	public Reservation(int reser_no, int flight_no,  int reser_people) {
+		super();
+		this.reser_no = reser_no;
+		this.flight_no = flight_no;
+		this.reser_people = reser_people;
+	}
+	
 	public Reservation(int flight_no, int reser_people, String user_id, int price) {
 		this.flight_no = flight_no;
 		this.reser_people = reser_people;

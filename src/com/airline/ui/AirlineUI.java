@@ -237,7 +237,44 @@ public class AirlineUI {
 	
 	// 비행예약수정
 	private void updateReservation() {
+		System.out.println("예약을 다시 받습니다.");
 		
+		System.out.print("수정하실 예약 번호를 입력해주세요 : ");
+		int resernum =scan.nextInt();
+		
+		System.out.print("원하시는 출발지를 입력해주세요 : ");
+		String departure = scan.next();
+		System.out.print("원하시는 도착지를 입력해주세요 : ");
+		String arrival = scan.next();
+		System.out.println("-----------------------------------------------");
+		ArrayList<Flight> flightList = reservationManager.getFlightListByPlace(departure, arrival);
+		System.out.println("비행번호\t출발지\t도착지\t가격\t출발날짜\t\t\t도착날짜\t\t\t소요시간\t잔여좌석");
+		
+		if (flightList == null || flightList.size() < 1) {
+			System.out.println("현재 예정인 비행이 없습니다.");
+			return;
+		}
+		
+		for (Flight flight: flightList) {
+			System.out.println(flight);
+		}
+		System.out.println("-----------------------------------------------");
+		
+		System.out.print("원하시는 비행기편 명을 입력해주세요 : ");
+		int flight_no = scan.nextInt();
+		System.out.print("예약하실 인원을 입력해주세요 : ");
+		int reser_people =scan.nextInt();
+		
+		Reservation reservation1 = new Reservation(resernum,flight_no,reser_people);
+		if(reservationManager.UpdateReservation(reservation1) ==1) {
+			System.out.print("No : " + flight_no+"\t");
+			System.out.println("인원 : " + reser_people);
+			System.out.println("재예약이 완료되었습니다.");
+			
+		}else {
+			System.out.println("재예약에 실패하였습니다.");
+			
+		}
 	}
 
 

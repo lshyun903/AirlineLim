@@ -43,6 +43,13 @@ public class ReservationManager {
 		return dao.deleteReservation(reser_no);
 	}
 	
+	//예약 수정
+	public int UpdateReservation(Reservation reservation) {
+		int result = dao.UpdateReservation(reservation);
+		
+		return result;
+		
+	}
 
 
 	

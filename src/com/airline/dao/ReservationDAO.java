@@ -88,7 +88,19 @@ public class ReservationDAO {
 	}
 	
 
-	
+	//예약 수정
+	public int UpdateReservation(Reservation reservation) {
+		int result = 0;
+		try(SqlSession sqlsession = factory.openSession()) {
+			ReservationMapper mapper = sqlsession.getMapper(ReservationMapper.class);
+			result = mapper.UpdateReservation(reservation);
+			sqlsession.commit();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	
 

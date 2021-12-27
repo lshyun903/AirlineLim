@@ -44,4 +44,11 @@
 		update flight set seat = seat+#{reser_people} where flight_no = #{flight_no}
 	</update>
 	
+	<!-- 예약 수정하기  -->
+	<update id="UpdateReservation" parameterType="reser">
+	update reservation set reser_no = reser_no, flight_no = #{flight_no}, user_id= user_id, reser_date = reser_date
+	, reser_people = #{reser_people}
+	where reser_no = #{reser_no}
+	</update>
+	
 </mapper>
