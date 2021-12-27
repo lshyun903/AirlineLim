@@ -8,6 +8,7 @@
     address varchar2(50) not null
  );
  
+ 
  create table airplane(
     airplane_id varchar2(20) primary key,
     airplane_seat number not null
@@ -57,3 +58,5 @@ insert into flight values (seq_flight.nextval, 'AL02', '부산', '인천', '1028
 insert into flight values (seq_flight.nextval, 'AL03', '부산', '인천', '102800', TO_DATE('05-10-2022 23:45:00','MM-DD-YYYY HH24:MI:SS'),TO_DATE('05-11-2022 00:45:00','MM-DD-YYYY HH24:MI:SS'), 1, 100);
 
 commit;
+
+
