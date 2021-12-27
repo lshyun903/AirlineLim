@@ -319,7 +319,7 @@ public class AirlineUI {
 		}
 	}
 	
-	// 연동확인12
+	// 연동확인123
 
 	// 비행일정삭제
 	private void deleteFlight() {

@@ -66,4 +66,32 @@ public class AdminDAO {
 		}
 		return 0;
 	}
+	
+	// 비행번호 확인
+	public Flight findAirplaneId(int flight_no) {
+		try(SqlSession session = factory.openSession()){
+			AdminMapper mapper = session.getMapper(AdminMapper.class);
+			Flight flight = mapper.findAirplaneId(flight_no);
+			return flight;	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	// 회원들의 비행 예약 삭제
+	public int deleteReservation(int flight_no) {
+		try(SqlSession session = factory.openSession()){
+			AdminMapper mapper = session.getMapper(AdminMapper.class);
+			int result = mapper.deleteReservation(flight_no);
+			session.commit();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
 }

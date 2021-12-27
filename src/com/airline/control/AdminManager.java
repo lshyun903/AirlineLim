@@ -35,6 +35,8 @@ public class AdminManager {
 	}
 
 	public int deleteFlight(int flight_no) {
+		//String airplane_id = dao.findAirplaneId(flight_no).getAirplane_id();
+		dao.deleteReservation(flight_no);
 		return dao.deleteFlight(flight_no);
 	}
 	
