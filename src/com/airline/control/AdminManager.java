@@ -34,6 +34,9 @@ public class AdminManager {
 		return airplane;
 	}
 
+	public int deleteFlight(int flight_no) {
+		return dao.deleteFlight(flight_no);
+	}
 	
 	
 

@@ -19,4 +19,9 @@
 		insert into flight values (seq_flight.nextval, #{airplane_id}, #{departure}, #{arrival}, #{price}, TO_DATE(#{departure_date},'YYYY-MM-DD HH24:MI:SS'),TO_DATE(#{arrival_date},'YYYY-MM-DD HH24:MI:SS'), #{flight_time}, #{seat})
 	</insert>
 	
+	<!-- 비행일정 삭제 -->
+	<delete id="deleteFlight">
+		delete from flight where flight_no = #{flight_no}	
+	</delete>
+
 </mapper>

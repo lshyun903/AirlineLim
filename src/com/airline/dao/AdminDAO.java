@@ -52,4 +52,18 @@ public class AdminDAO {
 		}
 		return null;
 	}
+	
+	// 비행기 flight_no으로 일정 삭제
+	
+	public int deleteFlight(int flight_no) {
+		try(SqlSession session = factory.openSession()){
+			AdminMapper mapper = session.getMapper(AdminMapper.class);
+			int result = mapper.deleteFlight(flight_no);
+			session.commit();
+			return result;
+		} catch(Exception e) {
+		e.printStackTrace();
+		}
+		return 0;
+	}
 }

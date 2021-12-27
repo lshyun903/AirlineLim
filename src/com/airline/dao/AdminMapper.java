@@ -16,4 +16,7 @@ public interface AdminMapper {
 	
 	// 비행기ID 로 비행기 검색
 	public Airplane getAirPlane(String airplaen_id);
+	
+	// 비행기 일정 삭제
+	public int deleteFlight(int flight_no);
 }
