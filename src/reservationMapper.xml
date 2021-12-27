@@ -24,6 +24,10 @@
   		select * from flight where flight_no = #{flight_no}
   	</select>
   	
+  	<select id="getReservationByReserNum" parameterType="int" resultType="reser">
+  		select * from reservation where reser_no = #{reser_no}
+  	</select>
+  	
   	<!-- 비행예약 삽입 -->
   	<insert id="insertReservation" parameterType="reser">
   		 insert into reservation values (seq_reser.nextval, #{flight_no}, #{user_id}, default, #{reser_people}, #{price}) 
@@ -46,8 +50,7 @@
 	
 	<!-- 예약 수정하기  -->
 	<update id="UpdateReservation" parameterType="reser">
-	update reservation set reser_no = reser_no, flight_no = #{flight_no}, user_id= user_id, reser_date = reser_date
-	, reser_people = #{reser_people}
+	update reservation set reser_people = #{reser_people}, price = #{price}
 	where reser_no = #{reser_no}
 	</update>
 	

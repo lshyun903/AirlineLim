@@ -35,6 +35,8 @@ public interface ReservationMapper {
 	
 	//예약 수정
 	public int UpdateReservation(Reservation reservation);
+
+	public Reservation getReservationByReserNum(int reser_no);
 	
 
 }
