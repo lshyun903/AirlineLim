@@ -32,7 +32,11 @@ public interface ReservationMapper {
 	
 	// 예약 취소시 비행일정 seat컬럼을 예약인원수만큼 증가
 	public void updatePlusSeat(Reservation reser);
+	
+	//예약 수정
+	public int UpdateReservation(Reservation reservation);
 
+	public Reservation getReservationByReserNum(int reser_no);
 	
 
 }

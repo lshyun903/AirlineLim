@@ -43,6 +43,19 @@ public class ReservationManager {
 		return dao.deleteReservation(reser_no);
 	}
 	
+	//예약 수정
+	public int UpdateReservation(Reservation reser, int reser_people) {
+		Flight flight = selectFlightByFlightNo(reser.getFlight_no());
+		reser.setPrice(flight.getPrice() * reser.getReser_people());
+		int result = dao.UpdateReservation(reser, reser_people);
+		return result;
+	}
+	
+	// 예약번호로 예약조회
+	public Reservation getReservationByReserNum(int resernum) {
+		Reservation reser = dao.getReservationByReserNum(resernum);
+		return reser;
+	}
 
 
 	

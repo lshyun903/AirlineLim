@@ -237,7 +237,30 @@ public class AirlineUI {
 	
 	// 비행예약수정
 	private void updateReservation() {
+		System.out.print("수정하실 예약 번호를 입력해주세요 : ");
+		int resernum =scan.nextInt();
 		
+		Reservation reser = reservationManager.getReservationByReserNum(resernum);
+		
+		if(reser == null) {
+			System.out.println("예약번호를 잘못 입력하였습니다.");
+			return;
+		}
+		
+		System.out.print("수정하실 인원을 입력해주세요 : ");
+		
+		int reser_people = reser.getReser_people();
+		int new_reser_people =scan.nextInt();
+		reser.setReser_people(new_reser_people);
+		if(reservationManager.UpdateReservation(reser, reser_people) == 1) {
+			System.out.print("No : " + reser.getFlight_no() +"\t");
+			System.out.println("인원 : " + reser_people);
+			System.out.println("수정이 완료되었습니다.");
+			
+		}else {
+			System.out.println("수정에 실패하였습니다.");
+			
+		}
 	}
 
 

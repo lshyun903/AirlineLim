@@ -88,7 +88,32 @@ public class ReservationDAO {
 	}
 	
 
-	
+	//예약 수정
+	public int UpdateReservation(Reservation reser, int reser_people) {
+		int result = 0;
+		try(SqlSession sqlsession = factory.openSession()) {
+			ReservationMapper mapper = sqlsession.getMapper(ReservationMapper.class);
+			Reservation seatReser = new Reservation(reser.getFlight_no(), reser_people - reser.getReser_people());
+			mapper.updatePlusSeat(seatReser);
+			result = mapper.UpdateReservation(reser);
+			sqlsession.commit();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public Reservation getReservationByReserNum(int resernum) {
+		Reservation reser = null;
+		try(SqlSession session = factory.openSession()){
+			ReservationMapper mapper = session.getMapper(ReservationMapper.class);
+			reser = mapper.getReservationByReserNum(resernum);
+		}catch(Exception e) {
+		e.printStackTrace();
+		}
+		return reser;
+	}
 	
 	
 

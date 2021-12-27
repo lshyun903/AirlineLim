@@ -14,6 +14,11 @@ public class Reservation {
 		this.user_id = user_id;
 	}
 	
+	public Reservation(int flight_no, int reser_people) {
+		this.flight_no = flight_no;
+		this.reser_people = reser_people;
+	}
+	
 	public Reservation(int flight_no, int reser_people, String user_id, int price) {
 		this.flight_no = flight_no;
 		this.reser_people = reser_people;
@@ -31,6 +36,7 @@ public class Reservation {
 		this.reser_people = reser_people;
 		this.price = price;
 	}
+
 
 	public int getReser_no() {
 		return reser_no;
