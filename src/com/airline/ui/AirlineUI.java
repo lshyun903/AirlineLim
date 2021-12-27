@@ -318,9 +318,29 @@ public class AirlineUI {
 			System.out.println("등록에 실패하였습니다.");			
 		}
 	}
+	
+	// 연동확인123
 
 	// 비행일정삭제
 	private void deleteFlight() {
+		ArrayList<Flight> flightList = adminManager.getFlightList();
+		System.out.println("비행번호\t출발지\t도착지\t가격\t출발날짜\t\t\t도착날짜\t\t\t소요시간\t남은좌석");
+		for(Flight f : flightList) {
+			System.out.println(f);
+		}
+		System.out.print("삭제할 비행번호를 입력해주세요.");
+		int flight_no = scan.nextInt();
+		if (reservationManager.selectFlightByFlightNo(flight_no) == null) {
+			System.out.println("삭제할 비행번호와 연동된 항공편이 없습니다.");		return;
+		}
+		
+		if (adminManager.deleteFlight(flight_no) == 0) {
+			System.out.println("일정 삭제에 실패하였습니다.");
+		} else {
+			System.out.println("일정 삭제 성공!");
+		}
+		
+		
 	}
 	
 	
