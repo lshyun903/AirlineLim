@@ -10,10 +10,17 @@ public class User {
 	private String address;
 	
 	public User(String user_id, String passwd, String name, String email, String phone, String address) {
-		super();
 		this.user_id = user_id;
 		this.passwd = passwd;
 		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
+
+	public User(String user_id,String passwd, String email, String phone, String address) {
+		this.user_id = user_id;
+		this.passwd = passwd;
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
@@ -69,7 +76,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [user_id=" + user_id + ", passwd=" + passwd + ", name=" + name + ", email=" + email + ", phone="
-				+ phone + ", address=" + address + "]";
+		return  user_id + "\t" + name + "\t" + email + "\t" + phone + "\t" + address;
 	}
 }

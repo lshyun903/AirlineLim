@@ -1,9 +1,7 @@
 package com.airline.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Set;
 
 import com.airline.control.AdminManager;
 import com.airline.control.ReservationManager;
@@ -32,7 +30,7 @@ public class AirlineUI {
 			if (!userManager.isLogin()) {
 				System.out.println("1. 로그인/회원가입");
 			} else {
-				System.out.println("1. 로그아웃/회원정보수정");
+				System.out.println("1. 마이페이지");
 			}
 			System.out.println("2. 예약하기");
 			System.out.println("3. 예약내역");
@@ -64,7 +62,8 @@ public class AirlineUI {
 	public void userUI() {
 		if (userManager.isLogin()) {
 			System.out.println("1. 로그아웃");
-			System.out.println("2. 회원정보수정");
+			System.out.println("2. 회원정보");
+			System.out.println("3. 회원정보수정");
 			System.out.println("-------------------------");
 			System.out.print("선택 : ");
 			
@@ -72,7 +71,8 @@ public class AirlineUI {
 			
 			switch(input) {
 				case 1:userManager.logout();break;
-				case 2:updateUser(); break;
+				case 2:userInfo(); break;
+				case 3:updateUser(); break;
 				default:System.out.println("번호를 잘못 입력했습니다.");
 			}
 		} else {
@@ -133,10 +133,36 @@ public class AirlineUI {
 	
 	// 회원정보수정
 	private void updateUser() {
+		System.out.println("회원정보수정");
+		System.out.println("-------------------------");
+		scan.nextLine();
+		System.out.print("패스워드 : ");
+		String passwd = scan.nextLine();
+		System.out.print("이메일 : ");
+		String email = scan.nextLine();
+		System.out.print("전화번호 : ");
+		String phone = scan.nextLine();
+		System.out.print("주소 : ");
+		String address = scan.nextLine();
 		
+		User user = new User(userManager.getLogin_id(),passwd, email, phone, address);
+		
+		if (userManager.updateUser(user)) {
+			System.out.println("회원정보가 수정되었습니다.");
+		} else {
+			System.out.println("회원수정에 실패하였습니다.");
+		}
 	}
-
 	
+	private void userInfo() {
+		User user = userManager.userInfo(userManager.getLogin_id());
+		if(user == null) {
+			System.out.println("회원정보를 불러올 수 없습니다.");		
+			return;
+		}
+		System.out.println("아이디\t이름\t이메일\t\t휴대폰번호\t\t주소\t");
+		System.out.println(user);
+	}
 	
 	
 	
@@ -342,31 +368,30 @@ public class AirlineUI {
 		}
 	}
 	
-	// 연동확인123
 
 	// 비행일정삭제
 	private void deleteFlight() {
 		ArrayList<Flight> flightList = adminManager.getFlightList();
 		System.out.println("비행번호\t출발지\t도착지\t가격\t출발날짜\t\t\t도착날짜\t\t\t소요시간\t남은좌석");
-		for(Flight f : flightList) {
-			System.out.println(f);
+		for(Flight flight : flightList) {
+			System.out.println(flight);
 		}
 		System.out.print("삭제할 비행번호를 입력해주세요.");
 		int flight_no = scan.nextInt();
 		if (reservationManager.selectFlightByFlightNo(flight_no) == null) {
-			System.out.println("삭제할 비행번호와 연동된 항공편이 없습니다.");		return;
+			System.out.println("삭제할 비행번호와 연동된 항공편이 없습니다.");		
+			return;
 		}
 		
 		if (adminManager.deleteFlight(flight_no) == 0) {
 			System.out.println("일정 삭제에 실패하였습니다.");
 		} else {
-			System.out.println("일정 삭제 성공!");
+			System.out.println("일정 삭제에 성공하였습니다");
 		}
 		
 		
 	}
-	
-	
+		
 	// 비행예약삭제
 	private void deleteReservation() {
 		System.out.print("취소할 예약 번호 : ");

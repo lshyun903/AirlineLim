@@ -14,5 +14,11 @@ public interface UserMapper {
 	
 	// 회원가입 처리
 	public int joinUser(User user);
+
+	// 회원정보 수정
+	public int updateUser(User user);
+
+	// 회원정보 검색
+	public User userInfo(String login_id);
 	
 }

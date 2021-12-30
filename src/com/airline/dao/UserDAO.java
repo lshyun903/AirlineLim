@@ -54,4 +54,30 @@ public class UserDAO {
 		}
 		return false;
 	}
+
+	public boolean updateUser(User user) {
+		try(SqlSession session = factory.openSession()){
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			int result = mapper.updateUser(user);
+			session.commit();
+			if(result > 0) return true;
+		}catch(Exception e) {
+		e.printStackTrace();
+		}
+		return false;
+	}
+
+	public User userInfo(String login_id) {
+		try(SqlSession session = factory.openSession()){
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			
+			User user = mapper.userInfo(login_id);
+			return user;
+			
+		}catch(Exception e) {
+		e.printStackTrace();
+		}
+		return null;
+	}
 }

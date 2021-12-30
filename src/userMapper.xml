@@ -6,17 +6,32 @@
 
 	<!-- 아이디 비밀번호 확인 -->
 	<select id="login" parameterType="HashMap" resultType="int">
-  		select count(*) from userinfo where user_id = #{user_id} and passwd = #{passwd}
+  		select count(*) from userinfo 
+  		where user_id = #{user_id} and passwd = #{passwd}
   	</select>
 	
 	<!-- 아이디중복 확인 -->
 	<select id="check_duplicate_id" parameterType="String" resultType="int">
-  		select count(*) from userinfo where user_id = #{id}
+  		select count(*) from userinfo 
+  		where user_id = #{id}
+  	</select>
+  	
+  	<!-- 회원정보 -->
+  	<select id="userInfo" parameterType="string" resultType="user">
+  		select * from userinfo 
+  		where user_id = #{login_id}
   	</select>
 
   	<!-- 회원가입 -->
   	<insert id="joinUser" parameterType="user">
-  		insert into userinfo values(#{user_id}, #{passwd}, #{name}, #{email}, #{phone}, #{address})
+  		insert into userinfo 
+  		values(#{user_id}, #{passwd}, #{name}, #{email}, #{phone}, #{address})
   	</insert>
   	
+  	<!-- 회원정보수정 -->
+  	<update id="updateUser" parameterType="user" >
+  		update userinfo 
+  		set passwd=#{passwd}, email=#{email}, phone=#{phone}, address=#{address} 
+  		where user_id = #{user_id}
+  	</update>
 </mapper>

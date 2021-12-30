@@ -43,4 +43,13 @@ public class UserManager {
 		login_id = null;
 	}
 
+	public boolean updateUser(User user) {		
+		return dao.updateUser(user);
+	}
+
+	public User userInfo(String login_id) {
+		User user = dao.userInfo(login_id);
+		return user;
+	}
+
 }
