@@ -26,6 +26,7 @@ public class UserManager {
 		return false;
 	}
 
+	
 	// 아이디반환
 	public String getLogin_id() {
 		return login_id;
@@ -36,7 +37,7 @@ public class UserManager {
 		if(isLogin) return true;
 		return false;
 	}
-
+	
 	// 로그아웃
 	public void logout() {
 		isLogin = false;
